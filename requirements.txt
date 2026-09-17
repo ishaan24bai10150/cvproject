@@ -1,0 +1,10 @@
+numpy
+pandas
+natsort==8.1.0
+Pillow
+matplotlib
+tqdm
+opencv-python
+tensorflow
+jupyter
+notebook
