@@ -5,20 +5,20 @@
 
 This project uses Convolutional Neural Networks (CNNs) and image classification techniques to identify diseases in apple tree leaves.
 
-The model classifies input images into four categories:
+The model classifies apple leaf images into four categories:
 
 - Healthy
 - Multiple Diseases
 - Rust
 - Scab
 
-The objective is to assist in identifying apple leaf diseases using deep learning and image processing.
+The objective is to assist in identifying apple leaf diseases using deep learning and image processing techniques.
 
 ---
 
 ## 2. Problem Statement
 
-Apple trees can be affected by various diseases that impact plant health and crop production. Manual identification of these diseases can be time-consuming and requires expertise.
+Apple trees can be affected by various diseases that impact plant health and crop production. Manual identification of these diseases can be time-consuming and requires specialized knowledge.
 
 This project aims to develop an image classification model that identifies whether an apple leaf is healthy or affected by rust, scab, or multiple diseases.
 
@@ -37,13 +37,13 @@ This project aims to develop an image classification model that identifies wheth
 
 ## 4. Dataset
 
-The project uses the Plant Pathology 2020 FGVC7 dataset.
+The project uses the **Plant Pathology 2020 FGVC7 dataset**.
 
 Dataset link:
 
-https://www.kaggle.com/competitions/plant-pathology-2020-fgvc7/overview
+[Plant Pathology 2020 FGVC7 Dataset](https://www.kaggle.com/competitions/plant-pathology-2020-fgvc7/overview)
 
-The dataset contains images of apple leaves with the following categories:
+The dataset contains images of apple leaves belonging to the following categories:
 
 - Healthy
 - Multiple Diseases
@@ -53,6 +53,8 @@ The dataset contains images of apple leaves with the following categories:
 The training data includes image identifiers and corresponding class labels.
 
 ### Dataset Structure
+
+The dataset should be downloaded separately and placed in the appropriate project directories.
 
 ```text
 project-root/
@@ -66,7 +68,7 @@ project-root/
 └── README.md
 ```
 
-The dataset should be downloaded separately and placed in the appropriate directories.
+**Note:** The dataset is not included in the repository and must be downloaded separately.
 
 ---
 
@@ -82,6 +84,8 @@ The dataset should be downloaded separately and placed in the appropriate direct
 - Pillow
 - Scikit-learn
 - Jupyter Notebook
+- tqdm
+- natsort
 
 ---
 
@@ -90,8 +94,8 @@ The dataset should be downloaded separately and placed in the appropriate direct
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/<your-repository>.git
-cd <your-repository>
+git clone https://github.com/ishaan24bai10150/cvproject.git
+cd cvproject
 ```
 
 ### Step 2: Create a Virtual Environment
@@ -122,13 +126,13 @@ python -m pip install --upgrade pip
 pip install numpy pandas opencv-python pillow matplotlib tqdm natsort scikit-learn tensorflow jupyter
 ```
 
-If a `requirements.txt` file is available:
+If a `requirements.txt` file is available, install the dependencies using:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 5: Install Jupyter Kernel
+### Step 5: Install the Jupyter Kernel
 
 ```bash
 python -m ipykernel install --user --name apple-tree-disease-env
@@ -138,14 +142,15 @@ python -m ipykernel install --user --name apple-tree-disease-env
 
 ## 7. Configuration
 
-The notebook may contain local file paths. These paths must be updated according to the location of the project on the user's computer.
+The notebook may contain local file paths. These paths should be updated according to the location of the project on the user's computer.
 
-Recommended configuration:
+A recommended path configuration is:
 
 ```python
 from pathlib import Path
 
 PROJECT_DIR = Path.cwd()
+
 IMAGE_DIR = PROJECT_DIR / "images"
 TRAIN_CSV = PROJECT_DIR / "train.csv"
 TEST_CSV = PROJECT_DIR / "test.csv"
@@ -153,23 +158,34 @@ TEST_CSV = PROJECT_DIR / "test.csv"
 
 Before running the project, verify that:
 
-- The dataset is downloaded.
+- The dataset has been downloaded.
 - The image directory exists.
 - The CSV files are available.
 - The image names match the dataset labels.
 - The required folders have the correct paths.
+- No personal or system-specific file paths are used.
 
 ---
 
 ## 8. Running the Project
 
-### Using Jupyter Notebook
+The project is primarily implemented using Jupyter Notebook.
 
-Start Jupyter Notebook from the project directory:
+### Step 1: Start Jupyter Notebook
+
+Run the following command from the project directory:
 
 ```bash
 jupyter notebook
 ```
+
+Alternatively, launch Jupyter using:
+
+```bash
+python -m notebook
+```
+
+### Step 2: Open the Project Notebook
 
 Open the project notebook and execute the cells in the following order:
 
@@ -187,13 +203,7 @@ Open the project notebook and execute the cells in the following order:
 12. Save the trained model.
 13. Run predictions on sample images.
 
-### Command-Line Launch
-
-```bash
-python -m notebook
-```
-
-> The current implementation is primarily notebook-based. A separate Python entry-point script should be added if the evaluator requires direct script-based execution.
+**Note:** The current implementation is notebook-based. The complete workflow is performed through the notebook rather than a separate command-line Python entry-point script.
 
 ---
 
@@ -207,12 +217,11 @@ The project performs the following preprocessing operations:
 - Normalizes pixel values.
 - Organizes images into class-specific folders.
 - Applies image augmentation.
-
-The image data is divided into training and validation subsets.
+- Divides the image data into training and validation subsets.
 
 ### Image Augmentation
 
-The implementation uses techniques such as:
+The implementation uses the following image augmentation techniques:
 
 - Rescaling
 - Shearing
@@ -220,7 +229,9 @@ The implementation uses techniques such as:
 - Horizontal flipping
 - Vertical flipping
 
-These operations help the model learn from variations in the input images.
+These operations help the model learn visual patterns from different variations of input images.
+
+The image generator uses a validation split of 20%.
 
 ---
 
@@ -236,7 +247,7 @@ The architecture includes:
 4. Fully connected dense layer.
 5. Softmax output layer.
 
-The output layer contains four classes:
+The model classifies images into four categories:
 
 ```python
 categories = [
@@ -247,30 +258,44 @@ categories = [
 ]
 ```
 
+### Input Configuration
+
+- Input image size: 256 × 256 pixels
+- Number of input channels: 3
+- Output classes: 4
+
 ### Model Configuration
 
 - Optimizer: Adam
-- Loss Function: Categorical Crossentropy
-- Evaluation Metric: Accuracy
-- Maximum Epochs: 30
-- Early Stopping: Used where configured
-- Model Checkpointing: Used where configured
+- Loss function: Categorical Crossentropy
+- Evaluation metric: Accuracy
+- Maximum epochs: 30
+- Early stopping: Used where configured
+- Model checkpointing: Used where configured
 
 ---
 
 ## 11. Model Training
 
-During training, the model learns patterns associated with different apple leaf conditions.
+During training, the CNN learns visual patterns associated with different apple leaf conditions.
 
-Training and validation metrics are monitored to identify model performance and potential overfitting.
+The model is trained using the prepared training dataset, while validation data is used to monitor performance during training.
 
-The following outputs may be generated:
+The following metrics can be monitored:
 
 - Training accuracy
 - Validation accuracy
 - Training loss
 - Validation loss
-- Saved trained model
+
+The project uses model checkpointing to save the trained model and early stopping where configured.
+
+The model is saved using the following filenames in the implementation:
+
+```text
+apple_tree_diseases.h5
+Apple_Tree_Disease.h5
+```
 
 ---
 
@@ -278,27 +303,32 @@ The following outputs may be generated:
 
 The prediction process consists of the following steps:
 
-1. Load an input image.
-2. Resize the image to the required dimensions.
-3. Convert the image into an array.
-4. Normalize the pixel values.
-5. Add a batch dimension.
-6. Pass the image through the trained model.
-7. Identify the class with the highest predicted probability.
-8. Display the predicted category.
+1. Load a trained model.
+2. Load an input image.
+3. Resize the image to 256 × 256 pixels.
+4. Convert the image into an array.
+5. Normalize the pixel values.
+6. Add a batch dimension.
+7. Pass the image through the trained CNN model.
+8. Identify the class with the highest predicted probability.
+9. Display the predicted disease category.
 
-The model's output should be considered an assistance tool and not a replacement for professional agricultural diagnosis.
+The prediction output should be considered an assistance tool and not a replacement for professional agricultural diagnosis.
 
 ---
 
 ## 13. Recommended Project Structure
 
+The repository should contain the files required to run and understand the project.
+
+A recommended structure is:
+
 ```text
 project-root/
-├── data/
-│   └── README.md
-├── notebooks/
-│   └── apple_tree_disease_classification.ipynb
+├── images/
+├── train.csv
+├── test.csv
+├── project.ipynb
 ├── models/
 │   └── apple_tree_diseases.h5
 ├── outputs/
@@ -309,20 +339,23 @@ project-root/
 └── .gitignore
 ```
 
-The exact structure should match the files included in the repository.
+**Note:** The exact structure should match the files available in the repository. Files and folders should only be listed if they are included in the project.
 
 ---
 
 ## 14. Reproducibility Checklist
+
+Before running the project, verify the following:
 
 - [ ] Python is installed.
 - [ ] A virtual environment is created.
 - [ ] Required dependencies are installed.
 - [ ] The dataset is downloaded.
 - [ ] Dataset paths are configured.
-- [ ] The notebook runs without errors.
+- [ ] The notebook opens successfully.
 - [ ] Image preprocessing works correctly.
 - [ ] The model trains successfully.
+- [ ] Training and validation metrics are generated.
 - [ ] Accuracy and loss plots are generated.
 - [ ] The trained model is saved.
 - [ ] Prediction works on a sample image.
@@ -333,26 +366,27 @@ The exact structure should match the files included in the repository.
 
 ## 15. Limitations
 
-- Model performance depends on dataset quality.
-- The model may not generalize to all lighting conditions and camera angles.
-- Hard-coded paths may require modification on different systems.
+- Model performance depends on the quality and distribution of the dataset.
+- The model may not generalize to all lighting conditions, backgrounds, and camera angles.
+- Local file paths may require modification on different systems.
 - The current implementation is primarily notebook-based.
-- Predictions may be inaccurate for images that differ from the training dataset.
+- Predictions may be inaccurate for images that differ significantly from the training dataset.
 - The model does not replace professional plant disease diagnosis.
+- The model's performance should be evaluated further before real-world agricultural deployment.
 
 ---
 
 ## 16. References
 
-1. Plant Pathology 2020 FGVC7 Dataset:
+1. **Plant Pathology 2020 FGVC7 Dataset**
 
    https://www.kaggle.com/competitions/plant-pathology-2020-fgvc7/overview
 
-2. TensorFlow Documentation:
+2. **TensorFlow Documentation**
 
    https://www.tensorflow.org/
 
-3. Keras Documentation:
+3. **Keras Documentation**
 
    https://keras.io/
 
@@ -362,4 +396,6 @@ The exact structure should match the files included in the repository.
 
 The dataset, external libraries, and any reused implementation must be used according to their respective licenses and usage conditions.
 
-External sources and reused code should be acknowledged appropriately. Any modifications, experiments, and reported results should be documented accurately.
+External sources and reused code should be acknowledged appropriately.
+
+All modifications, experiments, and reported results should be documented accurately. The project is intended for educational and research purposes.
