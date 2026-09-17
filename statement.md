@@ -7,49 +7,62 @@ Apple Tree Disease Prediction Using Image Classification
 
 ## 1. Problem Statement
 
-Apple trees can be affected by diseases such as rust, scab, and multiple diseases, which can negatively impact plant health and agricultural productivity. Identifying these diseases manually requires time and expertise.
+Apple trees can be affected by diseases such as rust, scab, and multiple diseases, which can reduce plant health and agricultural productivity. Manual disease identification can be time-consuming and requires specialized knowledge.
 
-This project aims to develop an image classification system using deep learning and Convolutional Neural Networks (CNNs) to identify diseases in apple tree leaves from images. The system classifies input images into the appropriate disease category, helping users understand the health condition of the plant.
+This project develops an image classification system using a Convolutional Neural Network (CNN) to classify apple leaf images into four categories: healthy, rust, scab, and multiple diseases. The system uses image preprocessing and deep learning techniques to learn visual patterns from labeled leaf images and predict the category of a new image.
 
 ## 2. Project Scope
 
-The project focuses on classifying apple tree leaf images into predefined categories using an image classification model.
+The project focuses on developing a CNN-based image classification model for identifying apple tree leaf conditions.
 
-The scope includes:
+The project includes:
 
-- Processing and preparing image data.
-- Training a CNN-based image classification model.
-- Classifying new leaf images.
-- Displaying the predicted disease category.
-- Evaluating the model's classification performance.
+- Loading training and testing labels from CSV files.
+- Organizing image data into appropriate categories.
+- Preprocessing and normalizing images.
+- Creating training and validation data generators.
+- Building and training a CNN model.
+- Saving the trained model for future use.
+- Predicting the category of an input apple leaf image.
+- Visualizing training and validation accuracy and loss.
 
-The project is intended as an academic demonstration of computer vision and deep learning concepts. It is not intended to replace professional agricultural diagnosis.
+The project is developed for academic purposes and provides preliminary image-based classification rather than professional agricultural diagnosis.
 
 ## 3. Target Users
 
 - Agriculture students and researchers.
-- Farmers seeking preliminary information about plant diseases.
 - Students learning computer vision and deep learning.
-- Developers interested in image classification applications.
+- Farmers seeking preliminary information about apple leaf conditions.
+- Developers exploring CNN-based image classification systems.
 
 ## 4. High-Level Features
 
-### 4.1 Image Data Processing
+### 4.1 Dataset Loading and Organization
 
-The system processes and prepares image data for model training and prediction. Image preprocessing helps ensure that input images are suitable for the classification model.
+The system loads image labels from `train.csv` and `test.csv`. The training labels include the image identifier and four classification categories: healthy, multiple diseases, rust, and scab.
 
-### 4.2 CNN-Based Image Classification
+### 4.2 Image Preprocessing
 
-A Convolutional Neural Network is trained to identify patterns and features in apple leaf images and classify them into different disease categories.
+The project processes leaf images and prepares them for model training. Images are normalized using pixel rescaling, and data generators are used to supply images to the model.
 
-### 4.3 Disease Prediction
+### 4.3 CNN Model Development
 
-The system accepts an image of an apple leaf and predicts its corresponding category using the trained model.
+A Convolutional Neural Network is developed using multiple convolutional layers, max-pooling layers, a flattening layer, and dense layers. The model uses the Adam optimizer and categorical cross-entropy loss for multiclass classification.
 
-### 4.4 Model Evaluation
+### 4.4 Model Training and Validation
 
-The trained model can be evaluated using suitable classification metrics to understand its performance on image data.
+The CNN model is trained using the prepared image dataset. Model checkpoints and early stopping are used during training, and validation data is used to monitor model performance.
+
+### 4.5 Performance Visualization
+
+Training and validation accuracy and loss are plotted to analyze the learning behavior and performance of the model.
+
+### 4.6 Disease Category Prediction
+
+The trained model accepts an input apple leaf image, preprocesses it, and generates a predicted class using the model's output probabilities.
 
 ## 5. Expected Outcome
 
-The expected outcome is an image classification system capable of predicting the category of an apple tree leaf image using a trained deep learning model. The project demonstrates the application of computer vision, image preprocessing, and CNN-based classification to an agricultural problem.
+The expected outcome is a trained CNN-based image classification model that predicts whether an apple leaf belongs to the healthy, rust, scab, or multiple diseases category.
+
+The project demonstrates the application of image preprocessing, convolutional neural networks, supervised learning, model validation, and image-based prediction in the field of computer vision.
